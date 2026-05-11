@@ -72,7 +72,3 @@ console.log(resultado);
   ]
 }
 ```
-
-## Uso interno
-
-Si el proyecto se usara solo de forma interna, no hace falta publicarlo en npm. Basta con subirlo a GitHub e instalarlo desde la URL del repositorio en los proyectos consumidores.
