@@ -1,0 +1,29 @@
+{
+  "name": "uninews-scraper",
+  "version": "1.0.0",
+  "description": "Scraper modular de UniNews que devuelve noticias por autor en formato JSON.",
+  "type": "module",
+  "main": "./scraper-uninews.mjs",
+  "exports": {
+    ".": "./scraper-uninews.mjs"
+  },
+  "files": [
+    "scraper-uninews.mjs",
+    "README.md"
+  ],
+  "scripts": {
+    "check": "node --input-type=module -e \"import('./scraper-uninews.mjs').then(({ scrapearAutores }) => scrapearAutores(['Paulina Arellano'], { delayMs: 0 })).then((resultado) => console.log(JSON.stringify(resultado, null, 2)))\""
+  },
+  "keywords": [
+    "scraper",
+    "uninews",
+    "node",
+    "cheerio",
+    "news"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.2.0"
+  }
+}
