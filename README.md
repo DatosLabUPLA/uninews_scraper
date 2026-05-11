@@ -1,24 +1,30 @@
 # uninews-scraper
 
-Modulo para consultar UniNews por nombre de autor y obtener el resultado como JSON, sin escribir archivos en disco.
+Paquete de Node.js para consultar UniNews por nombre de autor y obtener el resultado como JSON, sin escribir archivos en disco.
+
+Repositorio GitHub actual: `DatosLabUPLA/uninews_scraper`
+
+Nombre del paquete: `uninews-scraper`
 
 ## Instalacion
 
 Desde GitHub:
 
 ```bash
-npm install github:TU_USUARIO/uninews_scraper
+npm install github:DatosLabUPLA/uninews_scraper
 ```
 
 Tambien puedes fijar una rama, tag o commit:
 
 ```bash
-npm install github:TU_USUARIO/uninews_scraper#main
+npm install github:DatosLabUPLA/uninews_scraper#master
 ```
 
 ```bash
-npm install github:TU_USUARIO/uninews_scraper#v1.0.0
+npm install github:DatosLabUPLA/uninews_scraper#v1.0.0
 ```
+
+Si mas adelante renombras el repositorio para usar guiones, una opcion consistente seria `uninews-scraper`, manteniendo el mismo nombre que el paquete.
 
 ## Uso
 

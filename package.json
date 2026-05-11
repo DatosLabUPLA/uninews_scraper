@@ -23,6 +23,14 @@
   ],
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DatosLabUPLA/uninews_scraper.git"
+  },
+  "homepage": "https://github.com/DatosLabUPLA/uninews_scraper#readme",
+  "bugs": {
+    "url": "https://github.com/DatosLabUPLA/uninews_scraper/issues"
+  },
   "dependencies": {
     "cheerio": "^1.2.0"
   }
