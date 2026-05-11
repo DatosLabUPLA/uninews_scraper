@@ -48,6 +48,8 @@ const resultado = await scrapearAutores("Paulina Arellano");
 console.log(resultado);
 ```
 
+Cada autor incluye `palabras_clave`, un arreglo con palabras limpias en minuscula y la cantidad de veces que se repiten en titulos y bajadas, sin stopwords en espanol y sin las palabras del nombre del autor.
+
 ## Respuesta
 
 ```json
@@ -63,6 +65,16 @@ console.log(resultado);
       "autor": "Paulina Arellano",
       "url_busqueda": "https://uninews.datoslab.cl/busqueda/?search=paulina+arellano",
       "cantidad_noticias": 5,
+      "palabras_clave": [
+        {
+          "palabra": "bibliotecologia",
+          "cantidad": 5
+        },
+        {
+          "palabra": "directora",
+          "cantidad": 4
+        }
+      ],
       "noticias": [
         {
           "titulo": "...",

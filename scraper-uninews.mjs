@@ -3,6 +3,124 @@ import { setTimeout as sleep } from "node:timers/promises";
 
 const BASE_URL = "https://uninews.datoslab.cl";
 const TIME_ZONE = "America/Santiago";
+const STOPWORDS = new Set([
+  "a",
+  "al",
+  "algo",
+  "algun",
+  "alguna",
+  "algunas",
+  "alguno",
+  "algunos",
+  "ante",
+  "antes",
+  "como",
+  "con",
+  "contra",
+  "cual",
+  "cuales",
+  "de",
+  "del",
+  "desde",
+  "donde",
+  "dos",
+  "e",
+  "el",
+  "ella",
+  "ellas",
+  "ellos",
+  "en",
+  "entre",
+  "era",
+  "erais",
+  "eran",
+  "eras",
+  "eres",
+  "es",
+  "esa",
+  "esas",
+  "ese",
+  "eso",
+  "esos",
+  "esta",
+  "estaba",
+  "estado",
+  "estais",
+  "estamos",
+  "estan",
+  "estar",
+  "estas",
+  "este",
+  "esto",
+  "estos",
+  "fue",
+  "fueron",
+  "ha",
+  "habia",
+  "han",
+  "hasta",
+  "hay",
+  "la",
+  "las",
+  "le",
+  "les",
+  "lo",
+  "los",
+  "mas",
+  "me",
+  "mi",
+  "mientras",
+  "mis",
+  "mucho",
+  "muy",
+  "no",
+  "nos",
+  "nosotras",
+  "nosotros",
+  "nuestra",
+  "nuestras",
+  "nuestro",
+  "nuestros",
+  "o",
+  "os",
+  "otra",
+  "otras",
+  "otro",
+  "otros",
+  "para",
+  "pero",
+  "por",
+  "porque",
+  "que",
+  "quien",
+  "quienes",
+  "se",
+  "sea",
+  "segun",
+  "ser",
+  "si",
+  "sin",
+  "sobre",
+  "son",
+  "su",
+  "sus",
+  "tambien",
+  "te",
+  "tenia",
+  "tiene",
+  "tienen",
+  "todo",
+  "tras",
+  "tu",
+  "tus",
+  "u",
+  "un",
+  "una",
+  "uno",
+  "unos",
+  "y",
+  "ya",
+]);
 
 function construirUrlBusqueda(nombre, page = 1) {
   const url = new URL("/busqueda/", BASE_URL);
@@ -20,6 +138,43 @@ function limpiarTexto(texto) {
     .replace(/\s+/g, " ")
     .replace(/\u00a0/g, " ")
     .trim();
+}
+
+function normalizarPalabra(texto) {
+  return limpiarTexto(texto)
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function extraerPalabrasLimpias(texto) {
+  return normalizarPalabra(texto)
+    .replace(/[^\p{L}\p{N}\s]/gu, " ")
+    .split(/\s+/)
+    .filter((palabra) => palabra.length > 2 && !STOPWORDS.has(palabra));
+}
+
+function construirPalabrasClave(noticias, autor = "") {
+  const palabrasExcluidas = new Set(extraerPalabrasLimpias(autor));
+  const frecuencias = new Map();
+
+  for (const noticia of noticias) {
+    const palabrasNoticia = extraerPalabrasLimpias(
+      `${noticia.titulo} ${noticia.bajada}`
+    );
+
+    for (const palabra of palabrasNoticia) {
+      if (palabrasExcluidas.has(palabra)) {
+        continue;
+      }
+
+      frecuencias.set(palabra, (frecuencias.get(palabra) ?? 0) + 1);
+    }
+  }
+
+  return Array.from(frecuencias.entries())
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "es"))
+    .map(([palabra, cantidad]) => ({ palabra, cantidad }));
 }
 
 function convertirFecha(fechaTexto) {
@@ -191,6 +346,7 @@ async function scrapearAutor(nombre, opciones = {}) {
     autor: nombre,
     url_busqueda: primeraUrl,
     cantidad_noticias: noticias.length,
+    palabras_clave: construirPalabrasClave(noticias, nombre),
     noticias,
   };
 }
