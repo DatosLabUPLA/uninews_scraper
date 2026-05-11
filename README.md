@@ -53,6 +53,11 @@ console.log(resultado);
 ```json
 {
   "extraido": "2026-05-11T14:46:43-04:00",
+  "estadisticas": {
+    "cantidad_autores": 1,
+    "total_noticias": 5,
+    "promedio_noticias_por_autor": 5
+  },
   "resultados": [
     {
       "autor": "Paulina Arellano",

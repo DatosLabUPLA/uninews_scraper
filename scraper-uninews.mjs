@@ -205,8 +205,22 @@ export async function scrapearAutores(nombres, opciones = {}) {
     resultados.push(resultado);
   }
 
+  const totalNoticias = resultados.reduce(
+    (suma, resultado) => suma + resultado.cantidad_noticias,
+    0
+  );
+  const cantidadAutores = resultados.length;
+  const promedioNoticiasPorAutor = cantidadAutores === 0
+    ? 0
+    : totalNoticias / cantidadAutores;
+
   return {
     extraido,
+    estadisticas: {
+      cantidad_autores: cantidadAutores,
+      total_noticias: totalNoticias,
+      promedio_noticias_por_autor: promedioNoticiasPorAutor,
+    },
     resultados,
   };
 }
